@@ -1,10 +1,15 @@
 using Serilog;
 using Serilog.Events;
+using TestRS.Core;
+using TestRS.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services
+    .AddCore()
+    .AddInfrastructure();
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
