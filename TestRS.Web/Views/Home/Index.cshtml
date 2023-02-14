@@ -3,6 +3,20 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">File Archiver</h1>
+    @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" id="fileId" value="@ViewBag.FileId" />
+        <form method="post">
+            <input type="file" name="file" />
+            <button type="submit">Upload File</button>
+        </form>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    }
 </div>

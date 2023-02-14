@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Download Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">File archiver</h1>
+    @using (Html.BeginForm("GetArchive", "Home", new { id = ViewBag.FileId }, FormMethod.Get))
+    {
+        <form method="get">
+            <button type="submit">Download File</button>
+        </form>
+    }
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert" style="margin-top:20px">
+            @ViewBag.Message
+        </div>
+    }
+</div>
