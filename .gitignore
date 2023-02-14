@@ -4,3 +4,5 @@
 
 /TestRS.Web/obj
 /.vs
+/TestRS.Core/obj
+/TestRS.Infrastructure/obj
