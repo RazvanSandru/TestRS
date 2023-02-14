@@ -20,7 +20,7 @@ public class ArchiveRepository : IArchiveRepository
     public async Task Add(Archive archive)
     {
         _logger.LogInformation($"Started adding archive with id: {archive.Id} to database");
-        var query = "INSERT INTO [RS].[dbo].[Archives] (Id, FileName, UploadedDate, ArchiveTimeInMiliseconds, Status, Data) " +
+        var query = "INSERT INTO [RazvanS].[dbo].[Archives] (Id, FileName, UploadedDate, ArchiveTimeInMiliseconds, Status, Data) " +
                 "VALUES (@Id, @FileName, @UploadedDate, @ArchiveTimeInMiliseconds, @Status, @Data)";
 
         var parameters = new DynamicParameters();
@@ -48,7 +48,7 @@ public class ArchiveRepository : IArchiveRepository
     public async Task<Archive?> GetArchiveById(Guid archiveId)
     {
         _logger.LogInformation($"Trying to get archive with id: {archiveId} from database");
-        var query = "SELECT * FROM [RS].[dbo].[Archives] WHERE Id = @Id";
+        var query = "SELECT * FROM [RazvanS].[dbo].[Archives] WHERE Id = @Id";
         var parameters = new DynamicParameters();
         parameters.Add("Id", archiveId, DbType.Guid);
         Archive? result = new();
