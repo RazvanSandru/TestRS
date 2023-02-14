@@ -45,8 +45,24 @@ public class ArchiveRepository : IArchiveRepository
         _logger.LogInformation($"Finished adding archive with id: {archive.Id} to database");
     }
 
-    public Task<Archive?> GetArchiveById(Guid archiveId)
+    public async Task<Archive?> GetArchiveById(Guid archiveId)
     {
-        throw new NotImplementedException();
+        _logger.LogInformation($"Trying to get archive with id: {archiveId} from database");
+        var query = "SELECT * FROM [RS].[dbo].[Archives] WHERE Id = @Id";
+        var parameters = new DynamicParameters();
+        parameters.Add("Id", archiveId, DbType.Guid);
+        Archive? result = new();
+        try
+        {
+            using var connection = _dapperContext.CreateConnection();
+            result = await connection.QueryFirstOrDefaultAsync<Archive>(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"Could not retrieve archive with id: {archiveId} from database. Exception: {ex.ToString()}");
+            throw;
+        }
+
+        return result;
     }
 }

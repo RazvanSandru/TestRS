@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TestRS.Core.Commands;
+using TestRS.Core.Queries;
 using TestRS.Web.Models;
 
 namespace TestRS.Web.Controllers;
@@ -59,6 +60,39 @@ public class HomeController : Controller
 
         _logger.LogInformation("Finished uploading a file");
         return View("Index");
+    }
+
+    [HttpGet]
+    [Route("Home/GetArchive/{id?}")]
+    public async Task<IActionResult> GetArchive(Guid id)
+    {
+        _logger.LogInformation($"Started getting file with id: {id}");
+        try
+        {
+            var query = new FileArchiveQuery(id);
+
+            var archiveResponse = await _mediator.Send(query);
+
+            if (archiveResponse != null)
+            {
+                ViewBag.Message = "File retrieved";
+                _logger.LogInformation($"File with id: {id} was returned succesfully");
+
+                return File(archiveResponse.Archive.Data, "application/zip", archiveResponse.Archive.FileName + ".zip");
+            }
+            else
+            {
+                ViewBag.Message = "File does not exist.";
+                _logger.LogInformation($"File with id: {id} couldn't be returned");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.ToString());
+            ViewBag.Message = "File download Failed";
+        }
+
+        return null;
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
