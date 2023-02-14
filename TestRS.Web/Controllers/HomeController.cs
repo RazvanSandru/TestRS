@@ -20,6 +20,10 @@ public class HomeController : Controller
     [HttpPost]
     public async Task<IActionResult> UploadFile(IFormFile file)
     {
+        _logger.LogInformation("Started uploading a file");
+        
+
+        _logger.LogInformation("Finished uploading a file");
         return View("GetArchive");
     }
 
